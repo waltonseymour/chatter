@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { List } from 'immutable';
+import { Button, Intent } from "@blueprintjs/core";
 
 export interface ChatMessage {
     author: string;
@@ -18,13 +19,15 @@ export class ChatRoom extends React.Component<ChatRoomProps, {}> {
     }
 
     public render() {
-        return <div className='chatroom'>
+        return <div className='chatroom pt-card pt-elevation-0' >
             <div className='messages'>
                 {this.props.history.map((entry: ChatMessage) => {
                     return <div className="entry">{entry.message}</div>;
                 })}
             </div>
-            <input type="text" placeholder="write something fun" />
+
+            <input type="text" className="pt-input" placeholder="write something fun" />
+            <Button iconName='confirm' text="Send" intent={Intent.SUCCESS} />
         </div>;
     }
 }
