@@ -7,10 +7,8 @@ import { List } from 'immutable';
 const App = () => {
     return <div>
         <NavHeader />
-        <ChatRoom wsUrl="ws://localhost:9000/chat" />
+        <ChatRoom wsUrl="ws://localhost:9000/chat?user=yolo" />
     </div>;
 }
-
-
 
 ReactDOM.render(<App />, document.getElementById("app"));

@@ -36,7 +36,6 @@ export class ChatRoom extends React.Component<ChatRoomProps, ChatRoomState> {
         if (e.type === "message") {
             const msg = JSON.parse(e.data);
             if (msg.Type === 'message') {
-                console.log(msg);
                 this.setState({ history: this.state.history.push(msg) });
             }
         }
@@ -52,7 +51,7 @@ export class ChatRoom extends React.Component<ChatRoomProps, ChatRoomState> {
     }
 
     private onKeyPress = (e: any) => {
-        if (e.key === 'Enter') {
+        if (e.key === 'Enter' && this.state.inputText) {
             this.onClick();
         }
     }

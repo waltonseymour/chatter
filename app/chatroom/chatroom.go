@@ -13,8 +13,7 @@ type Event struct {
 }
 
 type Subscription struct {
-	Archive []Event      // All the events from the archive.
-	New     <-chan Event // New events coming in.
+	New <-chan Event // New events coming in.
 }
 
 // Owner of a subscription must cancel it when they stop listening to events.
@@ -24,7 +23,7 @@ func (s Subscription) Cancel() {
 }
 
 func newEvent(typ, user, msg string) Event {
-	return Event{typ, user, int(time.Now().Unix()), msg}
+	return Event{typ, user, int(time.Now().UnixNano()), msg}
 }
 
 func Subscribe() Subscription {
@@ -59,28 +58,19 @@ var (
 
 // This function loops forever, handling the chat room pubsub
 func chatroom() {
-	archive := list.New()
 	subscribers := list.New()
 
 	for {
 		select {
 		case ch := <-subscribe:
-			var events []Event
-			for e := archive.Front(); e != nil; e = e.Next() {
-				events = append(events, e.Value.(Event))
-			}
 			subscriber := make(chan Event, 10)
 			subscribers.PushBack(subscriber)
-			ch <- Subscription{events, subscriber}
+			ch <- Subscription{subscriber}
 
 		case event := <-publish:
 			for ch := subscribers.Front(); ch != nil; ch = ch.Next() {
 				ch.Value.(chan Event) <- event
 			}
-			if archive.Len() >= archiveSize {
-				archive.Remove(archive.Front())
-			}
-			archive.PushBack(event)
 
 		case unsub := <-unsubscribe:
 			for ch := subscribers.Front(); ch != nil; ch = ch.Next() {
