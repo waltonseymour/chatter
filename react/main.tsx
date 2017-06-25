@@ -7,7 +7,7 @@ import { List } from 'immutable';
 const App = () => {
     return <div>
         <NavHeader />
-        <ChatRoom history={List<ChatMessage>()} />
+        <ChatRoom wsUrl="ws://localhost:9000/chat" />
     </div>;
 }
 
