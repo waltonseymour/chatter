@@ -9,7 +9,7 @@ RUN go get github.com/revel/cmd/revel
 ADD . /go/src/chatter
 
 # Use the revel CLI to start up our application.
-ENTRYPOINT revel run chatter dev 9000
+ENTRYPOINT revel run chatter prod 9000
 
 # Open up the port where the app is running.
 EXPOSE 9000

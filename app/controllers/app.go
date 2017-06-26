@@ -22,14 +22,6 @@ func (c App) Chat(user string, ws *websocket.Conn) revel.Result {
 	chatroom.Join(user)
 	defer chatroom.Leave(user)
 
-	// Send down the archive.
-	// for _, event := range subscription.Archive {
-	// 	if websocket.JSON.Send(ws, &event) != nil {
-	// 		// They disconnected
-	// 		return nil
-	// 	}
-	// }
-
 	// In order to select between websocket messages and subscription events, we
 	// need to stuff websocket events into a channel.
 	newMessages := make(chan string)
