@@ -9,8 +9,8 @@ machine:
 
 dependencies:
   pre:
-    - mkdir -p /usr/local/go/src/
-    - ln -s /home/ubuntu/chatter /usr/local/go/src/chatter
+    - mkdir -p /home/ubuntu/.go_workspace/src
+    - ln -s /home/ubuntu/chatter /home/ubuntu/.go_workspace/src/chatter
 
   override:
     - yarn install
