@@ -9,7 +9,8 @@ machine:
 
 dependencies:
   pre:
-    - yarn --version
+    - mkdir -p /home/ubuntu/.go_workspace/src
+    - ln -s /home/ubuntu/chatter /home/ubuntu/.go_workspace/src/chatter
 
   override:
     - yarn install
@@ -18,7 +19,7 @@ dependencies:
 
 compile:
   override:
-    - yarn build
+    - yarn build-prod
 
 test:
   override:
