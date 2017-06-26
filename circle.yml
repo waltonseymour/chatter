@@ -1,6 +1,8 @@
 machine:
   node:
     version: 7.2.0
+  go:
+    version: 1.8.1
 
   post:
     - curl -o- -L https://yarnpkg.com/install.sh | bash
@@ -11,7 +13,13 @@ dependencies:
 
   override:
     - yarn install
+    - go get github.com/revel/revel
+    - go get github.com/revel/cmd/revel
 
 compile:
   override:
     - yarn build
+
+test:
+  override:
+    - revel test chatter
