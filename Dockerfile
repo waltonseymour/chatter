@@ -1,7 +1,7 @@
 # Use the official go docker image built on debian.
 FROM node:8
 
-RUN wget -O go.tgz https://storage.googleapis.com/golang/go1.8.3.linux-amd64.tar.gz
+RUN wget -q -O go.tgz https://storage.googleapis.com/golang/go1.8.3.linux-amd64.tar.gz
 RUN tar -C /usr/local -xzf go.tgz && rm go.tgz
 
 ENV GOPATH /go
