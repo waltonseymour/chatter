@@ -1,26 +1,12 @@
 machine:
-  node:
-    version: 7.2.0
-  go:
-    version: 1.8.1
-
-  post:
-    - curl -o- -L https://yarnpkg.com/install.sh | bash
+  services:
+    - docker
 
 dependencies:
-  pre:
-    - mkdir -p /home/ubuntu/.go_workspace/src
-    - ln -s /home/ubuntu/chatter /home/ubuntu/.go_workspace/src/chatter
-
   override:
-    - yarn install
-    - go get github.com/revel/revel
-    - go get github.com/revel/cmd/revel
-
-compile:
-  override:
-    - yarn build-prod
+    - docker info
+    - docker build --rm=false -t chatter .
 
 test:
   override:
-    - revel test chatter
+    - docker run chatter revel test chatter
