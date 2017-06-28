@@ -18,6 +18,9 @@ export interface ChatRoomState {
     inputText: string;
 }
 
+/**
+ * Component that manages chatroom messages and the sending of websocket messages
+ */
 export class ChatRoom extends React.Component<ChatRoomProps, ChatRoomState> {
 
     private ws: WebSocket;
@@ -54,9 +57,19 @@ export class ChatRoom extends React.Component<ChatRoomProps, ChatRoomState> {
         }
     }
 
-    public componentDidMount() {
+    /**
+     * Initializes websocket connection and lifecycle hooks
+     */
+    private connectWebsocket = () => {
         this.ws = new WebSocket(this.props.wsUrl);
         this.ws.onmessage = this.recieveMessage;
+        this.ws.onclose = () => {
+            setTimeout(() => this.connectWebsocket(), 5000);
+        };
+    }
+
+    public componentDidMount() {
+        this.connectWebsocket();
     }
 
     private setInput = (e: any) => this.setState({ inputText: e.target.value });
