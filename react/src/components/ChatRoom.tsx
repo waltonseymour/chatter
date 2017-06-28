@@ -18,6 +18,9 @@ export interface ChatRoomState {
     inputText: string;
 }
 
+/**
+ * Component that manages chatroom messages and the sending of websocket messages
+ */
 export class ChatRoom extends React.Component<ChatRoomProps, ChatRoomState> {
 
     private ws: WebSocket;
@@ -28,8 +31,6 @@ export class ChatRoom extends React.Component<ChatRoomProps, ChatRoomState> {
             history: List<ChatMessage>(),
             inputText: ''
         };
-        this.ws = new WebSocket(this.props.wsUrl);
-        this.ws.onmessage = this.recieveMessage;
     }
 
     private recieveMessage = (e: MessageEvent) => {
@@ -56,23 +57,40 @@ export class ChatRoom extends React.Component<ChatRoomProps, ChatRoomState> {
         }
     }
 
+    /**
+     * Initializes websocket connection and lifecycle hooks
+     */
+    private connectWebsocket = () => {
+        this.ws = new WebSocket(this.props.wsUrl);
+        this.ws.onmessage = this.recieveMessage;
+        this.ws.onclose = () => {
+            setTimeout(() => this.connectWebsocket(), 5000);
+        };
+    }
+
+    public componentDidMount() {
+        this.connectWebsocket();
+    }
+
     private setInput = (e: any) => this.setState({ inputText: e.target.value });
 
     public render() {
         return <div className='chatroom pt-card pt-elevation-0' >
             <div className='messages'>
                 {this.state.history.map((entry: ChatMessage) => {
-                    return <div className="entry" key={entry.Timestamp} >{entry.Text}</div>;
+                    return <div className="entry" key={entry.Timestamp}>{entry.Text}</div>;
                 })}
             </div>
-            <input
-                type="text"
-                className="pt-input"
-                value={this.state.inputText}
-                onChange={this.setInput}
-                onKeyPress={this.onKeyPress}
-            />
-            <Button iconName='confirm' text="Send" onClick={this.onClick} intent={Intent.SUCCESS} />
+            <div className='input-group'>
+                <input
+                    type="text"
+                    className="pt-input"
+                    value={this.state.inputText}
+                    onChange={this.setInput}
+                    onKeyPress={this.onKeyPress}
+                />
+                <Button iconName='confirm' text="Send" onClick={this.onClick} intent={Intent.SUCCESS} />
+            </div>
         </div>;
     }
 }

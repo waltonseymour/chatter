@@ -1,7 +1,7 @@
 var webpack = require("webpack");
 
 module.exports = {
-    entry: ["babel-polyfill", "./react/main.tsx"],
+    entry: ["babel-polyfill", "./react/src/main.tsx"],
     output: {
         filename: "./public/js/bundle.js",
     },
