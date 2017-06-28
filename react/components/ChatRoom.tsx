@@ -28,8 +28,6 @@ export class ChatRoom extends React.Component<ChatRoomProps, ChatRoomState> {
             history: List<ChatMessage>(),
             inputText: ''
         };
-        this.ws = new WebSocket(this.props.wsUrl);
-        this.ws.onmessage = this.recieveMessage;
     }
 
     private recieveMessage = (e: MessageEvent) => {
@@ -56,23 +54,30 @@ export class ChatRoom extends React.Component<ChatRoomProps, ChatRoomState> {
         }
     }
 
+    public componentDidMount() {
+        this.ws = new WebSocket(this.props.wsUrl);
+        this.ws.onmessage = this.recieveMessage;
+    }
+
     private setInput = (e: any) => this.setState({ inputText: e.target.value });
 
     public render() {
         return <div className='chatroom pt-card pt-elevation-0' >
             <div className='messages'>
                 {this.state.history.map((entry: ChatMessage) => {
-                    return <div className="entry" key={entry.Timestamp} >{entry.Text}</div>;
+                    return <div className="entry" key={entry.Timestamp}>{entry.Text}</div>;
                 })}
             </div>
-            <input
-                type="text"
-                className="pt-input"
-                value={this.state.inputText}
-                onChange={this.setInput}
-                onKeyPress={this.onKeyPress}
-            />
-            <Button iconName='confirm' text="Send" onClick={this.onClick} intent={Intent.SUCCESS} />
+            <div className='input-group'>
+                <input
+                    type="text"
+                    className="pt-input"
+                    value={this.state.inputText}
+                    onChange={this.setInput}
+                    onKeyPress={this.onKeyPress}
+                />
+                <Button iconName='confirm' text="Send" onClick={this.onClick} intent={Intent.SUCCESS} />
+            </div>
         </div>;
     }
 }
