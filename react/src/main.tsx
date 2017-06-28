@@ -4,6 +4,8 @@ import { ChatRoom, ChatMessage } from './components/ChatRoom';
 import { NavHeader } from './components/NavHeader';
 import { List } from 'immutable';
 
+require("./app.less");
+
 const App = () => {
     return <div>
         <NavHeader />
