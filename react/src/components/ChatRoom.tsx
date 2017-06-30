@@ -81,7 +81,7 @@ export class ChatRoom extends React.Component<ChatRoomProps, ChatRoomState> {
                     return <div className="entry" key={entry.Timestamp}>{entry.Text}</div>;
                 })}
             </div>
-            <div className='input-group'>
+            <div className='pt-input-group'>
                 <input
                     type="text"
                     className="pt-input"
@@ -89,7 +89,7 @@ export class ChatRoom extends React.Component<ChatRoomProps, ChatRoomState> {
                     onChange={this.setInput}
                     onKeyPress={this.onKeyPress}
                 />
-                <Button iconName='confirm' text="Send" onClick={this.onClick} intent={Intent.SUCCESS} />
+                <Button iconName='arrow-right' text="Send" className="pt-minimal" onClick={this.onClick} intent={Intent.SUCCESS} />
             </div>
         </div>;
     }
